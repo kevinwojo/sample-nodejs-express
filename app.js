@@ -3,36 +3,34 @@ var fs = require('fs');
 var jsonFile = require('jsonfile');
 var app = express();
 
-var obj = {name:'Publication #1',
-description: 'Plain-text description',
-abstract: '<h1>Abstract</h1><p>This is the abstract of the document</p>',
-doi: 'XYZ/10.4.0',
-author: 'Kevin Wojkovich',
-authorID: '1004',
-};
+var obj = [
+{name:'Publication #1',
+description: 'Plain-text description', abstract: '<h1>Abstract</h1><p>This is the abstract of the document</p>',
+doi: 'XYZ/10.4.0', author: 'Kevin Wojkovich', authorID: '1004', },
+{name:'Publication #2',
+description: 'Plain-text description', abstract: '<h1>Abstract</h1><p>This is the abstract of the document</p>',
+doi: 'XYZ/10.4.0', author: 'Kevin Wojkovich', authorID: '1004', }
 
+];
+
+// Write to JSON store
 jsonFile.writeFile('sample.db', obj, function(err,data) {
 	if (err) {
 		console.log(err);
 	}
 });
 
-
+// Read from JSON store
 jsonFile.readFile('sample.db', 'utf8', function (err,data) {
 	if (err) {
 		return console.log(err);
 	}
-	console.log(data);
 });
 
 app.get('/', function (req, res) {
 	res.send(obj);
-	//res.send('Hello world!');
 });
 
-app.post('/', function (req, res) {
-	console.log(req.data);
-});
 
 function exitHandler(options, err) {
 
@@ -66,9 +64,8 @@ function installExitHandler() {
 	process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
 }
 
-nonblockWrite("application started ....\n" + Date.now());
-installExitHandler();
 
-app.listen(3000, function() {
-	console.log('Example is listening on port 3000');
+app.listen(3330, function() {
+	console.log('Example is listening on port 3330');
+	installExitHandler();
 });
